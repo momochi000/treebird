@@ -32,3 +32,7 @@ managing a database. I tried an initial solution using sinatra and simple hash
 tables to manage the data but decided that would likely not sufficiently meet
 the requirements in spirit (enough ram would probably solve the problem, but
 I'm assuming the problem statement is seeking a more robust answer)
+
+### Caveats
+I didn't explicitly handle error cases such as invalid trees. I had to draw the
+line somewhere and cut scope.

@@ -3,6 +3,7 @@ require 'csv'
 class Treenode < ApplicationRecord
   has_many :birds, foreign_key: :node_id, primary_key: :node_id
 
+  # Return all birds associated with the given nodes and their descendants
   def self.associated_birds(node_ids)
     sql =
       <<-SQL
@@ -25,12 +26,12 @@ class Treenode < ApplicationRecord
 
     sql = ActiveRecord::Base.sanitize_sql_array([sql, node_ids])
 
-    #binding.break
     ActiveRecord::Base.connection.exec_query(sql)
       .map {|row| Bird.new(row)}
       .uniq
   end
 
+  # Return the nearest common ancestor to the given pair of nodes (given as ids)
   def self.common_ancestor(node_id_a, node_id_b)
     path_from_a = get_ancestors(node_id_a)
     if node_id_a == node_id_b
@@ -69,11 +70,13 @@ class Treenode < ApplicationRecord
     }
   end
 
+  # Get the list of ancestors of a given node (given as id)
   def self.get_ancestors(starting_node_id)
     result = ancestor_query(starting_node_id)
     result.map {|row| Treenode.new(row)}
   end
 
+  # Get the list of descendants of a given node (given as id)
   def self.get_descendants(starting_node_id)
     sql =
       <<-SQL
@@ -93,12 +96,15 @@ class Treenode < ApplicationRecord
       .map {|row| Treenode.new(row)}
   end
 
+  # Return the root node (of a given id)
   def self.get_root(starting_node_id)
     result = ancestor_query(starting_node_id)
     final_node = result.to_a.last
     Treenode.new(final_node)
   end
 
+  # Takes either raw csv data as a string or a csv File object and loads it
+  # into the database.
   def self.load_data(input_data)
     if input_data.is_a? File
       load_from_file(input_data)
