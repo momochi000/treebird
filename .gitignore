@@ -2,3 +2,4 @@
 .keep
 tmp/
 storage/
+log/
