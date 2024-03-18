@@ -27,6 +27,26 @@ handle the constraint of millions or even billions of records given
 https://www.sqlite.org/limits.html. If this were a production app, I would
 definitely reach for postgres first.
 
+The recursive queries work by repeatedly joining the `trees` table to itself in
+order to traverse up to ancestors or down through descendants. I considered a
+few alternative approaches but this is the most balanced, allowing for easy
+insertion of nodes.
+
+Another option i considered was going with a document database like mongo and
+storing paths to each node. For example:
+```
+| node_id | path            |
+|---------+-----------------|
+|     130 | null            |
+|     125 | 130/            |
+| 2820230 | 130/125/        |
+| 4430546 | 130/125/        |
+| 5497636 | 130/125/4430546 |
+```
+Which would allow for easy finding of common ancestors, but moving or removing
+nodes becomes more complicated, and I wasn't sure of the performance of partial
+string matching
+
 I chose rails primarily due to familiarity and for ease of connecting and
 managing a database. I tried an initial solution using sinatra and simple hash
 tables to manage the data but decided that would likely not sufficiently meet
