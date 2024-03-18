@@ -58,6 +58,8 @@ I didn't explicitly handle error cases such as invalid trees. I had to draw the
 line somewhere and cut scope.
 
 
+## Original problem statement
+
 Here's the code challenge.	It's designed	to test your decision making while trying to not write a lot of code or take a ton of time. That said, we do like to see clean, well organized
 
 There's no set deadline,	take as much time as you think you need and just let me know when to expect it.
