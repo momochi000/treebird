@@ -6,8 +6,11 @@ This is my solution to Dataplor's take home interview coding challenge.
 
 ## How to run it
 
-If you have docker installed, run `docker-compose
-up`. That should build and install everything needed and run the local server.
+If you have docker installed, run `docker-compose up`. That should build and
+install everything needed and run the local server.
+
+Next, in a separate shell, run `docker-compose run --rm web bash` to enter the
+container. From there run `rails db:prepare`
 
 I've included a rake task to load the `nodes.csv` file into the database, as
 well as a small sample `test_nodes.csv` (described in the problem statement)
